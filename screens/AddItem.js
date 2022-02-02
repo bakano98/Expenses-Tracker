@@ -60,12 +60,16 @@ const AddItem = ({ navigation }) => {
       return;
     }
 
-    const passable = JSON.stringify({
+    const passable = {
       price: price,
       category: cat,
       description: desc,
-    });
-    setContent([...content, passable]);
+    };
+    if (content[0].category === "") {
+      setContent([passable]);
+    } else {
+      setContent([...content, passable]);
+    }
     console.log(content);
     navigation.goBack();
   };

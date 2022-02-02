@@ -20,7 +20,13 @@ const Stack = createNativeStackNavigator();
 const CONTENT_KEY = "@content_key";
 
 const App = () => {
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState([
+    {
+      price: "",
+      category: "",
+      description: "",
+    },
+  ]);
 
   const saveContent = async () => {
     try {
@@ -50,7 +56,11 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Overview" component={Overview} />
-          <Stack.Screen name="Personal Expenses" component={AddItem} />
+          <Stack.Screen
+            name="AddItem"
+            component={AddItem}
+            options={{ title: "Personal Expenses" }}
+          />
           <Stack.Screen name="Categories" component={Categories} />
         </Stack.Navigator>
       </NavigationContainer>

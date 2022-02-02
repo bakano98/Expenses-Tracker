@@ -8,7 +8,13 @@ const contentContext = createContext({
   //   category: testCategory,
   //   description: some desc
   // }
-  content: [],
+  content: [
+    {
+      price: "",
+      category: "",
+      description: "",
+    },
+  ],
   setContent: (d) => [...content, d],
 });
 
