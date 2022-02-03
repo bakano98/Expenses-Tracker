@@ -14,7 +14,7 @@ const CustomModal = (props) => {
   const setVisibility = props.showModal;
   return (
     <View style={styles.centeredView}>
-      <Modal animationType="slide" transparent={true} visible={true}>
+      <Modal animationType="none" transparent={true} visible={true}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Name of the {props.name}</Text>
@@ -25,13 +25,13 @@ const CustomModal = (props) => {
             />
             <View style={styles.doubleButtons}>
               <TouchableOpacity
-                style={[{ marginRight: 20 }, styles.buttonStyle]}
+                style={[{ marginRight: 30 }, styles.buttonStyle]}
                 onPress={() => setVisibility(false)}
               >
                 <Text style={styles.buttonText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[{ marginLeft: 20 }, styles.buttonStyle]}
+                style={[{ marginLeft: 30 }, styles.buttonStyle]}
                 onPress={() => {
                   setter(text);
                   setVisibility(false);
@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -79,9 +77,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "white",
     height: 40,
-    width: 200,
-    paddingLeft: 10,
-    marginBottom: 20,
+    width: 230,
+    paddingLeft: 20,
+    marginBottom: 30,
     textAlign: "left",
     justifyContent: "center",
   },

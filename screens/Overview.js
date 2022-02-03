@@ -2,12 +2,12 @@ import { SafeAreaView, Text, StyleSheet, Button } from "react-native";
 import React, { useContext } from "react";
 import { FAB } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
-import mainContext from "../contexts/mainContext";
+import contentContext from "../contexts/contentContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // use context to store and pass around the prices, descriptions, etc arrays
 const Overview = ({ navigation }) => {
-  const { content } = useContext(mainContext);
+  const { content } = useContext(contentContext);
   console.log("Checking content from Overview: " + content);
   const lastItem = content[content.length - 1];
   console.log(content.length);
@@ -30,7 +30,7 @@ const Overview = ({ navigation }) => {
         }}
         upperCase={true}
         icon={<Ionicons name="add-circle" size={24} color="white" />}
-        onPress={() => navigation.navigate("AddItem")}
+        onPress={() => navigation.navigate("ExpensesStack")}
       />
       <Button
         title="Clear storage"

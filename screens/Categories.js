@@ -1,175 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { SafeAreaView, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FAB } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
-// AsyncStorage
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import dataContext from "../contexts/dataContext";
 
-import { ExpandableListView } from "react-native-expandable-listview";
-import { CustomModal } from "../components";
+import { CustomModal, CustomList } from "../components";
 
 const BUTTON_KEY = "@button_key";
 let lastPressedItem = null;
 const Categories = ({ navigation, route }) => {
-  // hooks. This is our FlatList data.
-  const [init, setInit] = useState([
-    {
-      id: "00",
-      categoryName: "Entertainment",
-      subCategory: [
-        {
-          id: "0",
-          name: "test1",
-        },
-        {
-          id: "1",
-          name: "test2",
-        },
-        {
-          id: "adder",
-          name: "Add new subcategory",
-        },
-      ],
-    },
-    {
-      id: "01",
-      categoryName: "Food",
-      subCategory: [
-        {
-          id: "0",
-          name: "test1",
-        },
-        {
-          id: "1",
-          name: "test2",
-        },
-        {
-          id: "adder",
-          name: "Add new subcategory",
-        },
-      ],
-    },
-    {
-      id: "02",
-      categoryName: "Transport",
-      subCategory: [
-        {
-          id: "0",
-          name: "test1",
-        },
-        {
-          id: "1",
-          name: "test2",
-        },
-        {
-          id: "adder",
-          name: "Add new subcategory",
-        },
-      ],
-    },
-    {
-      id: "03",
-      categoryName: "Utilities",
-      subCategory: [
-        {
-          id: "0",
-          name: "test1",
-        },
-        {
-          id: "1",
-          name: "test2",
-        },
-        {
-          id: "adder",
-          name: "Add new subcategory",
-        },
-      ],
-    },
-  ]);
-  const [show, setShow] = useState(false); // show subcat modal
-  const [showOther, setShowOther] = useState(false); // show cat modal
   // route stuff. We use this as a callback function to set category name
   const setter = route.params.catSetter;
-
-  const saveInit = async () => {
-    try {
-      await AsyncStorage.setItem(BUTTON_KEY, JSON.stringify(init));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const readInit = async () => {
-    try {
-      const res = await AsyncStorage.getItem(BUTTON_KEY);
-      if (res !== null) {
-        setInit(JSON.parse(res));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    readInit();
-  }, []);
-
-  useEffect(() => {
-    saveInit();
-  }, [init]);
-
-  const handleInnerPress = (item) => {
-    lastPressedItem = item;
-    const index = item.innerItemIndex;
-    let currentItem = item.item.subCategory[index];
-    if (currentItem.id !== "adder") {
-      setter(currentItem.name);
-      navigation.goBack();
-    } else {
-      // Show modal
-      setShow(true);
-    }
-  };
-
-  const subCatAdder = (text) => {
-    const subCat = lastPressedItem.item.subCategory;
-    subCat.splice(subCat.length - 1, 0, { id: subCat.length - 1, name: text });
-    const newThing = [...init];
-    setInit(newThing);
-  };
+  const { data, setData } = useContext(dataContext);
+  const [modal, setModal] = useState(false);
 
   const catAdder = (text) => {
-    console.log(text);
     const newThing = [
-      ...init,
+      ...data,
       {
-        id: init.length - 1,
+        isExpanded: false,
         categoryName: text,
-        subCategory: [
+        subcategory: [
           {
             id: "adder",
-            name: "Add new subcategory",
+            val: "Add new subcategory",
           },
         ],
       },
     ];
-    setInit(newThing);
+    setData(newThing);
   };
 
   const showModal = () => {
-    if (show) {
-      return (
-        <CustomModal
-          handleConfirm={subCatAdder}
-          showModal={setShow}
-          name={"subcategory"}
-        />
-      );
-    } else if (showOther) {
+    if (modal) {
       return (
         <CustomModal
           handleConfirm={catAdder}
-          showModal={setShowOther}
+          showModal={setModal}
           name={"category"}
         />
       );
@@ -183,17 +50,14 @@ const Categories = ({ navigation, route }) => {
       <SafeAreaView style={{ alignItems: "center" }}>
         <Text style={styles.headerText}>Select a Category</Text>
       </SafeAreaView>
-      <SafeAreaView style={{ flex: 1, marginTop: 20, marginBottom: 20 }}>
-        <ExpandableListView
-          data={init}
-          ExpandableListViewStyles={styles.expandableListStyle}
-          itemLabelStyle={styles.expandableListFont}
-          onInnerItemClick={(item) => handleInnerPress(item)}
-        />
+      <SafeAreaView style={{ flex: 1 }}>
+        <CustomList onPressInner={setter} />
       </SafeAreaView>
       <SafeAreaView
         style={{ marginTop: 20, marginRight: 10, marginBottom: 20 }}
-      ></SafeAreaView>
+      >
+        {showModal()}
+      </SafeAreaView>
       <FAB
         title="New"
         placement="right"
@@ -206,9 +70,8 @@ const Categories = ({ navigation, route }) => {
         }}
         upperCase={true}
         icon={<Ionicons name="add-circle" size={24} color="white" />}
-        onPress={() => setShowOther(true)}
+        onPress={() => setModal(true)}
       />
-      {showModal()}
     </SafeAreaView>
   );
 };

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import mainContext from "../contexts/mainContext";
+import contentContext from "../contexts/contentContext";
 
 // Custom components
 import { Button } from "../components";
@@ -36,7 +36,7 @@ const AddItem = ({ navigation }) => {
   // this will actually lead to categories page
   const [cat, setCat] = useState("");
   const [desc, setDesc] = useState("default");
-  const { content, setContent } = useContext(mainContext);
+  const { content, setContent } = useContext(contentContext);
 
   // custom functions
   const categoriesRedirection = (text) => {
