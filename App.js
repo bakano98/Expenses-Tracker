@@ -36,6 +36,7 @@ const OverviewStack = () => {
     {
       price: "",
       category: "",
+      date: "",
       description: "",
     },
   ]);
@@ -165,7 +166,11 @@ const App = () => {
     <dataContext.Provider value={{ data, setData }}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen component={OverviewStack} name="OverviewStack" options={{headerShown: false}}/>
+          <Stack.Screen
+            component={OverviewStack}
+            name="OverviewStack"
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </dataContext.Provider>

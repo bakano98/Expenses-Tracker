@@ -86,8 +86,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  expandableListStyle: {},
-
   headerText: {
     fontSize: 24,
     fontWeight: "bold",

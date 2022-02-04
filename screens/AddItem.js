@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React, { useState, useContext } from "react";
 import contentContext from "../contexts/contentContext";
-
+import { format } from "date-fns";
 // Custom components
 import { Button } from "../components";
 
@@ -63,14 +63,15 @@ const AddItem = ({ navigation }) => {
     const passable = {
       price: price,
       category: cat,
+      date: new Date(),
       description: desc,
     };
+
     if (content[0].category === "") {
       setContent([passable]);
     } else {
       setContent([...content, passable]);
     }
-    console.log(content);
     navigation.goBack();
   };
 
