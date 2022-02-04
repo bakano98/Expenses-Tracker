@@ -6,9 +6,7 @@ import dataContext from "../contexts/dataContext";
 
 import { CustomModal, CustomList } from "../components";
 
-const BUTTON_KEY = "@button_key";
-let lastPressedItem = null;
-const Categories = ({ navigation, route }) => {
+const Categories = ({ route }) => {
   // route stuff. We use this as a callback function to set category name
   const setter = route.params.catSetter;
   const { data, setData } = useContext(dataContext);

@@ -14,12 +14,71 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Custom imports for the screens
 import { Overview, AddItem, Categories } from "./screens";
-import { MenuProvider } from "react-native-popup-menu";
 
 const Stack = createNativeStackNavigator();
 
-const DATA_KEY = "@data_key";
 const ExpensesStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AddItem"
+        component={AddItem}
+        options={{ title: "Personal Expenses" }}
+      />
+      <Stack.Screen name="Categories" component={Categories} />
+    </Stack.Navigator>
+  );
+};
+
+const CONTENT_KEY = "@content_key";
+const OverviewStack = () => {
+  const [content, setContent] = useState([
+    {
+      price: "",
+      category: "",
+      description: "",
+    },
+  ]);
+
+  const saveContent = async () => {
+    try {
+      await AsyncStorage.setItem(CONTENT_KEY, JSON.stringify(content));
+    } catch (e) {}
+  };
+
+  const readContent = async () => {
+    try {
+      const res = await AsyncStorage.getItem(CONTENT_KEY);
+      if (res !== null) {
+        setContent(JSON.parse(res));
+      }
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    readContent();
+  }, []);
+
+  useEffect(() => {
+    saveContent();
+  }, [content]);
+
+  return (
+    <contentContext.Provider value={{ content, setContent }}>
+      <Stack.Navigator>
+        <Stack.Screen name="Overview" component={Overview} />
+        <Stack.Screen
+          name="ExpensesStack"
+          component={ExpensesStack}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </contentContext.Provider>
+  );
+};
+
+const DATA_KEY = "@data_key";
+const App = () => {
   const initData = [
     {
       isExpanded: false,
@@ -104,66 +163,12 @@ const ExpensesStack = () => {
 
   return (
     <dataContext.Provider value={{ data, setData }}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="AddItem"
-          component={AddItem}
-          options={{ title: "Personal Expenses" }}
-        />
-        <Stack.Screen name="Categories" component={Categories} />
-      </Stack.Navigator>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen component={OverviewStack} name="OverviewStack" options={{headerShown: false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
     </dataContext.Provider>
-  );
-};
-
-const CONTENT_KEY = "@content_key";
-const App = () => {
-  const [content, setContent] = useState([
-    {
-      price: "",
-      category: "",
-      description: "",
-    },
-  ]);
-
-  const saveContent = async () => {
-    try {
-      await AsyncStorage.setItem(CONTENT_KEY, JSON.stringify(content));
-    } catch (e) {}
-  };
-
-  const readContent = async () => {
-    try {
-      const res = await AsyncStorage.getItem(CONTENT_KEY);
-      if (res !== null) {
-        setContent(JSON.parse(res));
-      }
-    } catch (e) {}
-  };
-
-  useEffect(() => {
-    readContent();
-  }, []);
-
-  useEffect(() => {
-    saveContent();
-  }, [content]);
-
-  return (
-    <MenuProvider>
-      <contentContext.Provider value={{ content, setContent }}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Overview" component={Overview} />
-            <Stack.Screen
-              name="ExpensesStack"
-              component={ExpensesStack}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </contentContext.Provider>
-    </MenuProvider>
   );
 };
 
