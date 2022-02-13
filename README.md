@@ -21,7 +21,7 @@ As time goes by, I will update this app more in order to make it look more pleas
 
 # Upcoming Stuff
 ### Features
-- [ ] Allow deletion
+- [x] Allow deletion (simple deletion)
 - [ ] Allow editing
 - [ ] View spendings on a certain day/month
 - [ ] Search for overall spending for a certain category
