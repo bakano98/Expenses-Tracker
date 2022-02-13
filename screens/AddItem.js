@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React, { useState, useContext } from "react";
 import contentContext from "../contexts/contentContext";
-import { format } from "date-fns";
+import dateSpendingContext from "../contexts/dateSpendingContext";
 // Custom components
 import { Button } from "../components";
 
@@ -37,6 +37,7 @@ const AddItem = ({ navigation }) => {
   const [cat, setCat] = useState("");
   const [desc, setDesc] = useState("default");
   const { content, setContent } = useContext(contentContext);
+  const { spendingContent, setSpendingContent } = useContext(dateSpendingContext);
 
   // custom functions
   const categoriesRedirection = (text) => {
@@ -60,10 +61,12 @@ const AddItem = ({ navigation }) => {
       return;
     }
 
+    const todayDate = new Date();
+
     const passable = {
       price: price,
       category: cat,
-      date: new Date(),
+      date: todayDate,
       description: desc,
     };
 
@@ -72,6 +75,21 @@ const AddItem = ({ navigation }) => {
     } else {
       setContent([...content, passable]);
     }
+
+    const lastItemInSpendingContent = spendingContent[spendingContent.length - 1];
+    if (lastItemInSpendingContent.date == todayDate.getDate()) {
+      // otherwise just update the price
+      const temp = [...spendingContent];
+      temp[temp.length-1].price = Number(temp[temp.length-1].price) + Number(price);
+      setSpendingContent(temp);
+    } else {
+      setSpendingContent([...spendingContent, {
+        date: todayDate.getDate(),
+        month: todayDate.getMonth(),
+        price: price,
+      }])
+    }
+
     navigation.goBack();
   };
 

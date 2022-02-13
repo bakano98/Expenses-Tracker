@@ -4,6 +4,7 @@ import { FAB } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import contentContext from "../contexts/contentContext";
 import dataContext from "../contexts/dataContext";
+import dateSpendingContext from "../contexts/dateSpendingContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   differenceInCalendarDays,
@@ -11,15 +12,17 @@ import {
   isSameMonth,
   parseJSON,
 } from "date-fns";
+import { Pie } from "../components";
 import { isSameYear } from "date-fns/esm";
-import { LogBox } from "react-native";
 
-LogBox.ignoreAllLogs(true);
+
 // use context to store and pass around the prices, descriptions, etc arrays
 const Overview = ({ navigation }) => {
   const { content } = useContext(contentContext);
   // Now we can fetch all the data
   const { data } = useContext(dataContext);
+  const { spendingContent } = useContext(dateSpendingContext);
+  console.log(spendingContent);
   // Data shape:
   /* 
     ArrayName[
@@ -45,7 +48,6 @@ const Overview = ({ navigation }) => {
   // Now, get all the subcategories. Note that the indexing is same as categoryNames, so
   // each subcategory's index corresponds to each categoryNames' index.
   const subcategories = data.map((object) => object.subcategory);
-
   // This works, but we might not have any use for this.
   const renderAsText = () => {
     return categoryNames.map((name, key) => (
@@ -155,6 +157,8 @@ const Overview = ({ navigation }) => {
 
     return thisYearSpent;
   };
+  
+  // if (todayDate == spendingContent[])
 
   /* End of helper functions */
   return (
@@ -207,6 +211,7 @@ const Overview = ({ navigation }) => {
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       >
         <Text>Visual representation of spendings</Text>
+        <Pie data={spendingContent}/>
       </SafeAreaView>
       <FAB
         title="Add"

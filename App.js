@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Context
 import contentContext from "./contexts/contentContext";
 import dataContext from "./contexts/dataContext";
+import dateSpendingContext from "./contexts/dateSpendingContext";
 
 // AsyncStorage
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -44,7 +45,7 @@ const OverviewStack = () => {
   const saveContent = async () => {
     try {
       await AsyncStorage.setItem(CONTENT_KEY, JSON.stringify(content));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const readContent = async () => {
@@ -53,7 +54,7 @@ const OverviewStack = () => {
       if (res !== null) {
         setContent(JSON.parse(res));
       }
-    } catch (e) {}
+    } catch (e) { }
   };
 
   useEffect(() => {
@@ -79,6 +80,7 @@ const OverviewStack = () => {
 };
 
 const DATA_KEY = "@data_key";
+const SPEND_KEY = "@spend_key";
 const App = () => {
   const initData = [
     {
@@ -138,11 +140,15 @@ const App = () => {
   ];
 
   const [data, setData] = useState(initData);
-
+  const [spendingContent, setSpendingContent] = useState([{
+    date: "",
+    month: "",
+    spendings: "",
+  }]);
   const saveData = async () => {
     try {
       await AsyncStorage.setItem(DATA_KEY, JSON.stringify(data));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const readData = async () => {
@@ -151,29 +157,48 @@ const App = () => {
       if (res !== null) {
         setData(JSON.parse(res));
       }
-    } catch (e) {}
+    } catch (e) { }
   };
+
+  const saveSpendData = async () => {
+    try {
+      await AsyncStorage.setItem(SPEND_KEY, JSON.stringify(spendingContent));
+    } catch (e){ }
+  }
+
+  const readSpendData = async () => {
+    try {
+      const res = await AsyncStorage.getItem(SPEND_KEY)
+      if (res !== null) {
+        setSpendingContent(JSON.parse(res));
+      }
+    } catch (e) { }
+  }
 
   useEffect(() => {
     readData();
+    readSpendData();
   }, []);
 
   useEffect(() => {
     saveData();
-  }, [data]);
+    saveSpendData();
+  }, [data, spendingContent]);
 
   return (
-    <dataContext.Provider value={{ data, setData }}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            component={OverviewStack}
-            name="OverviewStack"
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </dataContext.Provider>
+    <dateSpendingContext.Provider value={{ spendingContent, setSpendingContent }}>
+      <dataContext.Provider value={{ data, setData }}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              component={OverviewStack}
+              name="OverviewStack"
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </dataContext.Provider>
+    </dateSpendingContext.Provider>
   );
 };
 

@@ -15,6 +15,7 @@ import { CustomModal } from "../components";
 // starting number of items. Each time we add, +1. This is to give unique keys to each item.
 let numItems = 6;
 
+
 // custom alert with two buttons.
 const customAlert = (acceptHandler, categoryName) => {
   Alert.alert("Delete?", "Delete " + categoryName + "?", [
@@ -108,11 +109,12 @@ const ExpandableComponent = ({
     <SafeAreaView style={{ width: "100%", backgroundColor: "#86BBD8" }}>
       <TouchableOpacity
         onPress={onPress}
-        onLongPress={() =>
+        onLongPress={() => {
           customAlert(
             () => handleLongOuter(outerIndex),
             data[outerIndex].categoryName
           )
+        }
         }
         style={{
           alignItems: "center",
