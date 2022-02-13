@@ -39,30 +39,50 @@ const Pie = (data) => {
 
 const legendStuff = [
   {
-    color: "red",
-    legendFontColor: "#7F7F7F",
+    color: "#FEE1C7",
+    legendFontColor: "#FEE1C7",
     legendFontSize: 15
   },
   {
-    color: "#ffffff",
-    legendFontColor: "#7F7F7F",
+    color: "#FA7E61",
+    legendFontColor: "#FA7E61",
     legendFontSize: 15
   },
   {
-    color: "rgb(0, 0, 255)",
-    legendFontColor: "#7F7F7F",
+    color: "#F44174",
+    legendFontColor: "#F44174",
     legendFontSize: 15
   },
   {
-    color: "#F00",
-    legendFontColor: "#7F7F7F",
+    color: "#98C1D9",
+    legendFontColor: "#98C1D9",
     legendFontSize: 15,
   },
   {
-    color: "rgba(131, 167, 234, 1)",
-    legendFontColor: "#7F7F7F",
+    color: "#37FF8B",
+    legendFontColor: "#37FF8B",
     legendFontSize: 15
-  }
+  }, 
+  {
+    color: "#F2E94E",
+    legendFontColor: "#F2E94E",
+    legendFontSize: 15,
+  },
+  {
+    color: "#4C1A57",
+    legendFontColor: "#4C1A57",
+    legendFontSize: 15,
+  },
+  {
+    color: "#6874E8",
+    legendFontColor: "#6874E8",
+    legendFontSize: 15,
+  },
+  {
+    color: "#5B3758",
+    legendFontColor: "#5B3758",
+    legendFontSize: 15,
+  },
 ]
 
 const Breakdown = () => {
@@ -124,7 +144,7 @@ const Breakdown = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#C1DEAE",
+    backgroundColor: "#424B54",
     justifyContent: 'center',
     alignItems: 'center',
   },
