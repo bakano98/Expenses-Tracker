@@ -12,7 +12,7 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 
-const Pie = (props) => {
+const BreakdownVisual = (props) => {
   const PASSED_DATA = props.data;
   const todayDate = new Date();
   const todayMonth = todayDate.getMonth() + 1;
@@ -26,6 +26,7 @@ const Pie = (props) => {
     }
     return temp
   }
+  
   const makeData = () => {
     const temp = [];
     const size = PASSED_DATA.length;
@@ -105,4 +106,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Pie;
+export default BreakdownVisual;

@@ -12,7 +12,7 @@ import {
   isSameMonth,
   parseJSON,
 } from "date-fns";
-import { Pie } from "../components";
+import { Visualisation } from "../components";
 import { isSameYear } from "date-fns/esm";
 
 
@@ -157,7 +157,7 @@ const Overview = ({ navigation }) => {
 
     return thisYearSpent;
   };
-  
+
   // if (todayDate == spendingContent[])
 
   /* End of helper functions */
@@ -211,7 +211,7 @@ const Overview = ({ navigation }) => {
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       >
         <Text>Visual representation of spendings</Text>
-        <Pie data={spendingContent}/>
+        <Visualisation data={spendingContent} />
       </SafeAreaView>
       <FAB
         title="Add"
@@ -233,6 +233,14 @@ const Overview = ({ navigation }) => {
           onPress={async () => {
             await AsyncStorage.clear();
             console.log("success");
+          }}
+        />
+      </SafeAreaView>
+      <SafeAreaView style={{flex: 1, left: 0,}}>
+        <Button
+          title="See breakdown"
+          onPress={() => {
+            navigation.navigate("Breakdown")
           }}
         />
       </SafeAreaView>

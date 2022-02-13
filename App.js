@@ -14,7 +14,7 @@ import dateSpendingContext from "./contexts/dateSpendingContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Custom imports for the screens
-import { Overview, AddItem, Categories } from "./screens";
+import { Overview, AddItem, Categories, Breakdown } from "./screens";
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +74,7 @@ const OverviewStack = () => {
           component={ExpensesStack}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Breakdown" component={Breakdown}/>
       </Stack.Navigator>
     </contentContext.Provider>
   );
