@@ -74,7 +74,7 @@ const OverviewStack = () => {
           component={ExpensesStack}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Breakdown" component={Breakdown}/>
+        <Stack.Screen name="Breakdown" component={Breakdown} />
       </Stack.Navigator>
     </contentContext.Provider>
   );
@@ -86,15 +86,15 @@ const App = () => {
   const initData = [
     {
       isExpanded: false,
-      categoryName: "First",
+      categoryName: "Food",
       subcategory: [
         {
           id: 1,
-          val: "First-First",
+          val: "Meals",
         },
         {
           id: 2,
-          val: "First-Second",
+          val: "Groceries",
         },
         {
           id: "adder",
@@ -104,15 +104,15 @@ const App = () => {
     },
     {
       isExpanded: false,
-      categoryName: "Second",
+      categoryName: "Entertainment",
       subcategory: [
         {
           id: 3,
-          val: "Second-First",
+          val: "Movies",
         },
         {
           id: 4,
-          val: "Second-Second",
+          val: "Games",
         },
         {
           id: "adder",
@@ -122,15 +122,15 @@ const App = () => {
     },
     {
       isExpanded: false,
-      categoryName: "Third",
+      categoryName: "Transport",
       subcategory: [
         {
           id: 5,
-          val: "Third-First",
+          val: "Public Transport",
         },
         {
           id: 6,
-          val: "Third-Second",
+          val: "Private Hire",
         },
         {
           id: "adder",
@@ -139,7 +139,7 @@ const App = () => {
       ],
     },
   ];
-
+  
   const [data, setData] = useState(initData);
   const [spendingContent, setSpendingContent] = useState([{
     date: "",
@@ -164,7 +164,7 @@ const App = () => {
   const saveSpendData = async () => {
     try {
       await AsyncStorage.setItem(SPEND_KEY, JSON.stringify(spendingContent));
-    } catch (e){ }
+    } catch (e) { }
   }
 
   const readSpendData = async () => {

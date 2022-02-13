@@ -11,7 +11,15 @@ const Categories = ({ route }) => {
   const setter = route.params.catSetter;
   const { data, setData } = useContext(dataContext);
   const [modal, setModal] = useState(false);
+  data.sort((x, y) => {
+    if (x.categoryName < y.categoryName) {
+      return -1;
+    } else if (x.categoryName > y.categoryName) {
+      return 1
+    }
 
+    return 0;
+  })
   const catAdder = (text) => {
     const newThing = [
       ...data,
