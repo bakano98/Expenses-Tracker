@@ -18,10 +18,10 @@ import { isSameYear } from "date-fns/esm";
 
 // use context to store and pass around the prices, descriptions, etc arrays
 const Overview = ({ navigation }) => {
-  const { content } = useContext(contentContext);
+  const { content, setContent } = useContext(contentContext);
   // Now we can fetch all the data
   const { data } = useContext(dataContext);
-  const { spendingContent } = useContext(dateSpendingContext);
+  const { spendingContent, setSpendingContent } = useContext(dateSpendingContext);
   console.log(spendingContent);
   // Data shape:
   /* 
@@ -65,8 +65,25 @@ const Overview = ({ navigation }) => {
       </SafeAreaView>
     ));
   };
+  const handleDelete = () => {
+    const temp = [...content];
+    let temp2 = [...spendingContent];
+    // popping returns the object
+    const item = temp.pop();
+    const pricePopped = item.price;
+    temp2[temp2.length-1].price -= Number(pricePopped);
+    setSpendingContent(temp2);
+    if (temp.length === 0) {
+      temp.push({
+        category: "",
+        date: "",
+        description: "",
+        price: "",
+      })
+    }
+    setContent(temp);
+  }
 
-  // console.log(content);
 
   // console.log("Checking content from Overview: " + content);
   /* Shape of each object in content: { 
@@ -205,6 +222,11 @@ const Overview = ({ navigation }) => {
             This year: ${getThisYearSpent()}
           </Text>
         </SafeAreaView>
+        <SafeAreaView style={styles.topDivider}>
+          <Text style={styles.topDividerText}>
+            You last added: {lastItem.description}, {lastItem.category}
+          </Text>
+        </SafeAreaView>
       </SafeAreaView>
 
       <SafeAreaView
@@ -241,6 +263,14 @@ const Overview = ({ navigation }) => {
           title="See breakdown"
           onPress={() => {
             navigation.navigate("Breakdown")
+          }}
+        />
+      </SafeAreaView>
+      <SafeAreaView style={{position: "absolute", flex: 1, right: 0,}}>
+        <Button
+          title="Delete last"
+          onPress={() => {
+            handleDelete()
           }}
         />
       </SafeAreaView>
